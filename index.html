@@ -56,7 +56,8 @@
             text-align: center;
         }
 
-        #topic-selector, #branch-selector {
+        #topic-selector,
+        #branch-selector {
             margin-bottom: 2rem;
         }
 
@@ -78,32 +79,37 @@
             display: none;
         }
 
-        .home-link {
+        .home-link,
+        .github-link {
             font-size: 1.6rem;
             text-decoration: none;
             color: #9b4dca;
         }
 
-        .kifuforjs-lite > svg {
+        .header-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .kifuforjs-lite>svg {
             max-width: 100%;
             height: auto;
         }
 
-        /* 修正したスタイル */
         .kifuforjs-lite {
             display: flex !important;
             align-items: stretch !important;
         }
 
-        .kifuforjs-lite > div:first-child,
-        .kifuforjs-lite > div:last-child {
+        .kifuforjs-lite>div:first-child,
+        .kifuforjs-lite>div:last-child {
             display: flex !important;
             flex-direction: column !important;
             justify-content: stretch !important;
         }
 
         .kifuforjs-lite button,
-        .kifuforjs-lite div > button {
+        .kifuforjs-lite div>button {
             height: 100% !important;
             padding: 0 10px !important;
             margin: 0 !important;
@@ -112,7 +118,7 @@
             justify-content: center !important;
         }
 
-        .kifuforjs-lite > div:nth-child(2) {
+        .kifuforjs-lite>div:nth-child(2) {
             flex-grow: 1 !important;
         }
     </style>
@@ -122,7 +128,11 @@
     <div class="container">
         <header>
             <h1>将棋学習ポータル</h1>
-            <a href="#" id="home-link" class="home-link" onclick="showStrategyList(); return false;" style="display: none;">トップページ</a>
+            <div class="header-links">
+                <a href="#" id="home-link" class="home-link" onclick="showStrategyList(); return false;"
+                    style="display: none;">トップページ</a>
+                <a href="https://github.com/tomot7/shogi_learning_portal" class="github-link" target="_blank">GitHub</a>
+            </div>
         </header>
 
         <h2>戦法と定跡を学ぼう</h2>
@@ -159,7 +169,8 @@
         </section>
 
         <footer>
-            <p>© 2024 Your Name. このサイトのコンテンツは <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> ライセンスの下で提供されています。</p>
+            <p>© 2024 Your Name. このサイトのコンテンツは <a href="https://creativecommons.org/licenses/by-sa/4.0/"
+                    target="_blank">CC BY-SA 4.0</a> ライセンスの下で提供されています。</p>
         </footer>
     </div>
 
@@ -222,7 +233,7 @@
             document.getElementById("kifu-description").textContent = branch.description;
             document.getElementById("branch-select").value = branchIndex;
 
-            KifuForJS.load({src: `./kifu/${branch.file}`}, "kifu-area");
+            KifuForJS.load({ src: `./kifu/${branch.file}` }, "kifu-area");
 
             const url = new URL(window.location);
             url.searchParams.set("strategy", strategyKey);
@@ -230,11 +241,11 @@
             window.history.pushState({}, "", url);
         }
 
-        document.getElementById("strategy-select").addEventListener("change", function() {
+        document.getElementById("strategy-select").addEventListener("change", function () {
             loadStrategy(this.value);
         });
 
-        document.getElementById("branch-select").addEventListener("change", function() {
+        document.getElementById("branch-select").addEventListener("change", function () {
             const strategyKey = document.getElementById("strategy-select").value;
             loadBranch(strategyKey, this.value);
         });
