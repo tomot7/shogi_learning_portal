@@ -1,0 +1,35 @@
+{
+    "yagura": {
+        "name": "矢倉",
+        "description": "堅固な守りを特徴とする代表的な戦法です。",
+        "branches": [
+            { "name": "基本形", "file": "yagura_basic.kif", "description": "矢倉の基本形です。" },
+            { "name": "急戦矢倉", "file": "yagura_kyusen.kif", "description": "攻撃的な展開を目指す変化です。" },
+            { "name": "雁木", "file": "yagura_gangi.kif", "description": "矢倉に対する対抗形の一つです。" }
+        ]
+    },
+    "kakugawari": {
+        "name": "角換わり",
+        "description": "両者が角を交換する攻めの戦法です。",
+        "branches": [
+            { "name": "基本形", "file": "kakugawari_basic.kif", "description": "角換わりの基本形です。" },
+            { "name": "早繰り銀", "file": "kakugawari_hayakuri.kif", "description": "銀を早めに繰り出す変化です。" }
+        ]
+    },
+    "shikenbisha": {
+        "name": "四間飛車",
+        "description": "飛車を4筋に置く攻撃的な戦法です。",
+        "branches": [
+            { "name": "基本形", "file": "shikenbisha_basic.kif", "description": "四間飛車の基本形です。" },
+            { "name": "石田流", "file": "shikenbisha_ishida.kif", "description": "４筋の歩を突く変化です。" }
+        ]
+    },
+    "aigakari": {
+        "name": "相掛かり",
+        "description": "互いに攻め合う激しい戦いの戦法です。",
+        "branches": [
+            { "name": "基本形", "file": "aigakari_basic.kif", "description": "相掛かりの基本形です。" },
+            { "name": "右玉", "file": "aigakari_migi_gyoku.kif", "description": "玉を右に移動させる変化です。" }
+        ]
+    }
+}

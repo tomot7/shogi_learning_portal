@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>将棋学習ポータル - 戦法と定跡を学ぼう</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/kifu-for-js@5/bundle/kifu-for-js.min.js" charset="utf-8"></script>
+    <style>
+        body {
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        h1 {
+            font-size: 3.6rem;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-top: 2rem;
+        }
+
+        h3 {
+            font-size: 2.2rem;
+        }
+
+        .kifu-container {
+            margin: 2rem 0;
+            border: 1px solid #e1e1e1;
+            padding: 1rem;
+        }
+
+        footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e1e1e1;
+            text-align: center;
+        }
+
+        #topic-selector, #branch-selector {
+            margin-bottom: 2rem;
+        }
+
+        #strategy-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .strategy-item {
+            flex: 1 1 calc(50% - 0.5rem);
+            background-color: #f4f5f6;
+            border-left: 0.3rem solid #9b4dca;
+            padding: 1rem;
+        }
+
+        #content-area {
+            display: none;
+        }
+
+        .home-link {
+            font-size: 1.6rem;
+            text-decoration: none;
+            color: #9b4dca;
+        }
+
+        .kifuforjs-lite > svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 修正したスタイル */
+        .kifuforjs-lite {
+            display: flex !important;
+            align-items: stretch !important;
+        }
+
+        .kifuforjs-lite > div:first-child,
+        .kifuforjs-lite > div:last-child {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: stretch !important;
+        }
+
+        .kifuforjs-lite button,
+        .kifuforjs-lite div > button {
+            height: 100% !important;
+            padding: 0 10px !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .kifuforjs-lite > div:nth-child(2) {
+            flex-grow: 1 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>将棋学習ポータル</h1>
+            <a href="#" id="home-link" class="home-link" onclick="showStrategyList(); return false;" style="display: none;">トップページ</a>
+        </header>
+
+        <h2>戦法と定跡を学ぼう</h2>
+
+        <section id="about">
+            <p>このポータルでは、将棋の様々な戦法や定跡を学ぶことができます。各戦法には詳細な解説と実際の棋譜が含まれており、インタラクティブな棋譜再生機能を使って学習することができます。</p>
+        </section>
+
+        <section id="strategy-list">
+            <!-- 戦法リストがここに動的に生成されます -->
+        </section>
+
+        <section id="content-area">
+            <div id="topic-selector">
+                <label for="strategy-select">戦法を選択:</label>
+                <select id="strategy-select"></select>
+            </div>
+
+            <div id="branch-selector">
+                <label for="branch-select">分岐を選択:</label>
+                <select id="branch-select"></select>
+            </div>
+
+            <section id="overview">
+                <h2>概要</h2>
+                <p id="strategy-description"></p>
+            </section>
+
+            <section id="kifu-display">
+                <h2>棋譜</h2>
+                <p id="kifu-description"></p>
+                <div class="kifu-container" id="kifu-area"></div>
+            </section>
+        </section>
+
+        <footer>
+            <p>© 2024 Your Name. このサイトのコンテンツは <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> ライセンスの下で提供されています。</p>
+        </footer>
+    </div>
+
+    <script>
+        let strategies = {};
+
+        function showStrategyList() {
+            document.getElementById("strategy-list").style.display = "flex";
+            document.getElementById("content-area").style.display = "none";
+            document.getElementById("home-link").style.display = "none";
+            document.title = "将棋学習ポータル - 戦法と定跡を学ぼう";
+            history.pushState({}, "", window.location.pathname);
+        }
+
+        function initializeStrategyList() {
+            const strategyList = document.getElementById("strategy-list");
+            const strategySelect = document.getElementById("strategy-select");
+
+            for (const [key, strategy] of Object.entries(strategies)) {
+                const item = document.createElement("div");
+                item.className = "strategy-item";
+                item.innerHTML = `
+                    <h3>${strategy.name}</h3>
+                    <p>${strategy.description}</p>
+                    <button onclick="loadStrategy('${key}')">学習する</button>
+                `;
+                strategyList.appendChild(item);
+
+                const option = document.createElement("option");
+                option.value = key;
+                option.textContent = strategy.name;
+                strategySelect.appendChild(option);
+            }
+        }
+
+        function loadStrategy(strategyKey, branchIndex = 0) {
+            const strategy = strategies[strategyKey];
+            document.title = `${strategy.name} - 将棋学習ポータル`;
+            document.getElementById("strategy-description").textContent = strategy.description;
+            document.getElementById("strategy-select").value = strategyKey;
+            document.getElementById("content-area").style.display = "block";
+            document.getElementById("strategy-list").style.display = "none";
+            document.getElementById("home-link").style.display = "inline";
+
+            const branchSelect = document.getElementById("branch-select");
+            branchSelect.innerHTML = "";
+            strategy.branches.forEach((branch, index) => {
+                const option = document.createElement("option");
+                option.value = index;
+                option.textContent = branch.name;
+                branchSelect.appendChild(option);
+            });
+
+            loadBranch(strategyKey, branchIndex);
+        }
+
+        function loadBranch(strategyKey, branchIndex) {
+            const strategy = strategies[strategyKey];
+            const branch = strategy.branches[branchIndex];
+            document.getElementById("kifu-description").textContent = branch.description;
+            document.getElementById("branch-select").value = branchIndex;
+
+            KifuForJS.load({src: `./kifu/${branch.file}`}, "kifu-area");
+
+            const url = new URL(window.location);
+            url.searchParams.set("strategy", strategyKey);
+            url.searchParams.set("branch", branchIndex);
+            window.history.pushState({}, "", url);
+        }
+
+        document.getElementById("strategy-select").addEventListener("change", function() {
+            loadStrategy(this.value);
+        });
+
+        document.getElementById("branch-select").addEventListener("change", function() {
+            const strategyKey = document.getElementById("strategy-select").value;
+            loadBranch(strategyKey, this.value);
+        });
+
+        fetch('strategies.json')
+            .then(response => response.json())
+            .then(data => {
+                strategies = data;
+                initializeStrategyList();
+                const urlParams = new URLSearchParams(window.location.search);
+                const initialStrategy = urlParams.get("strategy");
+                const initialBranch = parseInt(urlParams.get("branch") || "0");
+                if (initialStrategy) {
+                    loadStrategy(initialStrategy, initialBranch);
+                }
+            })
+            .catch(error => console.error('Error loading strategies:', error));
+    </script>
+</body>
+
+</html>
