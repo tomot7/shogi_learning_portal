@@ -235,7 +235,8 @@
             document.getElementById("kifu-description").textContent = branch.description;
             document.getElementById("branch-select").value = branchIndex;
 
-            KifuForJS.load({ src: `./kifu/${branch.file}` }, "kifu-area");
+            const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+            KifuForJS.load({ src: `${baseUrl}${branch.file}` }, "kifu-area");
 
             const url = new URL(window.location);
             url.searchParams.set("strategy", strategyKey);
