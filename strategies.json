@@ -3,8 +3,8 @@
         "name": "四間飛車",
         "description": "自陣が固く、飛車を柔軟に使ってカウンターを狙う戦法です。",
         "branches": [
-            { "name": "基本図まで", "file": "kif/siken/基本図まで.kif", "description": "矢倉の基本形です。" },
-            { "name": "後手急戦_7二飛型", "file": "kif/siken/後手急戦_7二飛型.kif", "description": "攻撃的な展開を目指す変化です。" }
+            { "name": "基本図まで", "file": "kif/siken/基本図まで.kif", "description": "先手四間飛車対後手居飛車の基本図までを解説しています。最終図で後手が指す手によって、急戦か持久戦かが決まります。" },
+            { "name": "後手急戦_7二飛型", "file": "kif/siken/後手急戦_7二飛型.kif", "description": "後手が7筋を集中的に攻撃しようとする変化です。" }
         ]
     }
 }
