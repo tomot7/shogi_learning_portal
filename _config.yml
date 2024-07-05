@@ -1,0 +1,15 @@
+# サイトの基本設定
+title: 将棋学習ポータル
+description: 将棋の様々な戦法や定跡を学ぶことができるインタラクティブな学習ポータル。各戦法には詳細な解説と実際の棋譜が含まれており、インタラクティブな棋譜再生機能を使って学習することができます。
+url: https://tomot7.github.io/shogi_learning_portal
+author: tomot7
+og_image: /assets/images/ogpImage.png
+
+# 言語とタイムゾーン設定
+lang: ja
+timezone: Asia/Tokyo
+
+# プラグイン設定
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
